@@ -1,0 +1,21 @@
+{
+  "labels": ["Gen", "Feb", "Mar", "Apr", "Mag"],
+  "series": [
+    {
+      "data": [10, 20, 30, 40, 50],
+      "label": "Budget",
+      "area": true,
+      "stack": "total",
+      "color": "#1976d2"
+    },
+    {
+      "data": [5, 15, 10, 20, 25],
+      "label": "Expense",
+      "area": true,
+      "stack": "total",
+      "color": "#e91e63"
+    }
+  ],
+  "xAxisLabel": "Mese",
+  "yAxisLabel": "Valore (€)"
+}

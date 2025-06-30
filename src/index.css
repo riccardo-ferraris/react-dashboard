@@ -1,7 +1,51 @@
 @import "tailwindcss";
-
+/* 
 body {
   margin: 0;
   padding: 0;
   font-family: "Open Sans", sans-serif;
+} */
+
+:root {
+  /* Font families */
+  --font-display: "Open Sans", sans-serif;
+  --font-body: "Open Sans", sans-serif;
+
+  /* Font sizes */
+  --font-size-14: 14px;
+
+  /* Background colors */
+  --color-main-bg: #FAFBFB;
+  --color-main-dark-bg: #20232A;
+  --color-secondary-dark-bg: #33373E;
+  --color-light-gray: #F7F7F7;
+  --color-half-transparent: rgba(0, 0, 0, 0.5);
+
+  /* Border widths */
+  --border-width-1: 1px;
+
+  /* Border colors */
+  --border-color-color: rgba(0, 0, 0, 0.1);
+
+  /* Widths */
+  --width-400: 400px;
+  --width-760: 760px;
+  --width-780: 780px;
+  --width-800: 800px;
+  --width-1000: 1000px;
+  --width-1200: 1200px;
+  --width-1400: 1400px;
+
+  /* Heights */
+  --height-80: 80px;
+
+  /* Min heights */
+  --min-height-590: 590px;
+
+  /* Background image */
+  /* --background-image-hero-pattern: url('https://i.ibb.co/MkvLDfb/Rectangle-4389.png'); */
+  --background-image-hero-pattern: url('./data/welcome-bg.svg');
 }
+
+/* Dark mode support (if you still want class-based toggling) */
+@custom-variant dark (&:where(.dark, .dark *));
