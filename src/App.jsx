@@ -67,7 +67,7 @@ const App = () => {
               <Navbar />
             </div>
 
-            <div className="bg-gray-50">
+            <div className="bg-gray-50 pt-12">
               <Routes>
                 {/* Dashboard */}
                 <Route path="/" element={<Ecommerce />} />
