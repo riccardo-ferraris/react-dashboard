@@ -1,7 +1,7 @@
 import React from "react";
 import { Header } from "../components";
 import { DataGrid } from "@mui/x-data-grid";
-import { ordersData } from "../data/ordersData";
+import { ordersData } from "../data/dummy";
 import { Chip, Box } from "@mui/material";
 
 const rows = ordersData.map((order, index) => ({
