@@ -13,7 +13,7 @@ const columns = [
   {
     field: 'CustomerImage',
     headerName: 'Avatar',
-    minWidth: 80,
+    minWidth: 100,
         renderCell: (params) => (
           <Box
             sx={{
