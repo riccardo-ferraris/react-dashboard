@@ -1,4 +1,4 @@
-import { FiShoppingBag, FiEdit, FiPieChart } from "react-icons/fi";
+import { FiShoppingBag, FiPieChart } from "react-icons/fi";
 import {
   AiOutlineCalendar,
   AiOutlineShoppingCart,
@@ -50,10 +50,6 @@ export const links = [
       {
         name: "kanban",
         icon: <BsKanban />,
-      },
-      {
-        name: "editor",
-        icon: <FiEdit />,
       },
       {
         name: "color-picker",
