@@ -1,5 +1,5 @@
 {
-  "labels": ["Gen", "Feb", "Mar", "Apr", "Mag"],
+  "labels": ["Jan", "Feb", "Mar", "Apr", "May"],
   "series": [
     {
       "data": [10, 20, 30, 40, 50],
@@ -16,6 +16,6 @@
       "color": "#e91e63"
     }
   ],
-  "xAxisLabel": "Mese",
-  "yAxisLabel": "Valore (€)"
+  "xAxisLabel": "Month",
+  "yAxisLabel": "Value (€)"
 }

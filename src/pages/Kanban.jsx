@@ -2,32 +2,26 @@ import React, { useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { Header } from "../components";
 import { FiTrash, FiPlus } from "react-icons/fi";
-
-const initialData = {
-  columns: {
-    todo: {
-      name: "To Do",
-      color: "#FFDEDE",
-      items: [
-        { id: "1", content: "Controllare inventario" },
-        { id: "2", content: "Riordinare prodotti esauriti" },
-      ],
-    },
-    doing: {
-      name: "Doing",
-      color: "#DDEEFF",
-      items: [{ id: "3", content: "Spedizione ordine #453" }],
-    },
-    done: {
-      name: "Completed",
-      color: "#DEFDE0",
-      items: [{ id: "4", content: "Aggiornato listino prezzi" }],
-    },
-  },
-};
+import Modal from "../components/Modal";
+import initialData from "../data/kanbanData";
 
 const Kanban = () => {
   const [columns, setColumns] = useState(initialData.columns);
+
+  const [isAddColumnModalOpen, setAddColumnModalOpen] = useState(false);
+  const [isAddTaskModalOpen, setAddTaskModalOpen] = useState(false);
+  const [newColumnData, setNewColumnData] = useState({
+    name: "",
+    color: "#F0F0F0",
+  });
+  const [newTaskContent, setNewTaskContent] = useState("");
+  const [activeColumnId, setActiveColumnId] = useState(null);
+  const [confirmModal, setConfirmModal] = useState({
+    isOpen: false,
+    type: null, // 'column' | 'task'
+    columnId: null,
+    taskId: null,
+  });
 
   const onDragEnd = (result) => {
     const { source, destination } = result;
@@ -65,23 +59,23 @@ const Kanban = () => {
     }
   };
 
-  const handleAddTask = (columnId) => {
-    const content = prompt("Insert task:");
-    if (!content) return;
+  // const handleAddTask = (columnId) => {
+  //   const content = prompt("Insert task:");
+  //   if (!content) return;
 
-    const newTask = {
-      id: Date.now().toString(),
-      content,
-    };
+  //   const newTask = {
+  //     id: Date.now().toString(),
+  //     content,
+  //   };
 
-    setColumns({
-      ...columns,
-      [columnId]: {
-        ...columns[columnId],
-        items: [...columns[columnId].items, newTask],
-      },
-    });
-  };
+  //   setColumns({
+  //     ...columns,
+  //     [columnId]: {
+  //       ...columns[columnId],
+  //       items: [...columns[columnId].items, newTask],
+  //     },
+  //   });
+  // };
 
   const handleDeleteTask = (columnId, taskId) => {
     const updatedItems = columns[columnId].items.filter(
@@ -96,21 +90,21 @@ const Kanban = () => {
     });
   };
 
-  const handleAddColumn = () => {
-    const name = prompt("New section name:");
-    const color = prompt("Background color (es. #A3D2CA):", "#F0F0F0");
-    if (!name || !color) return;
+  // const handleAddColumn = () => {
+  //   const name = prompt("New section name:");
+  //   const color = prompt("Background color (es. #A3D2CA):", "#F0F0F0");
+  //   if (!name || !color) return;
 
-    const newId = `col-${Date.now()}`;
-    setColumns({
-      ...columns,
-      [newId]: {
-        name,
-        color,
-        items: [],
-      },
-    });
-  };
+  //   const newId = `col-${Date.now()}`;
+  //   setColumns({
+  //     ...columns,
+  //     [newId]: {
+  //       name,
+  //       color,
+  //       items: [],
+  //     },
+  //   });
+  // };
 
   const handleDeleteColumn = (columnId) => {
     const confirmed = window.confirm("Are you sure?");
@@ -122,13 +116,107 @@ const Kanban = () => {
     setColumns(updatedColumns);
   };
 
+  // ------------------------ Modal Handlers ------------------------
+
+  const openAddTaskModal = (columnId) => {
+    setActiveColumnId(columnId);
+    setNewTaskContent("");
+    setAddTaskModalOpen(true);
+  };
+
+  const openAddColumnModal = () => {
+    setNewColumnData({ name: "", color: "#F0F0F0" });
+    setAddColumnModalOpen(true);
+  };
+
+  const handleConfirmAddColumn = () => {
+    if (!newColumnData.name || !newColumnData.color) return;
+
+    const newId = `col-${Date.now()}`;
+    setColumns({
+      ...columns,
+      [newId]: {
+        name: newColumnData.name,
+        color: newColumnData.color,
+        items: [],
+      },
+    });
+    setAddColumnModalOpen(false);
+  };
+
+  const handleConfirmAddTask = () => {
+    if (!newTaskContent || !activeColumnId) return;
+
+    const newTask = {
+      id: Date.now().toString(),
+      content: newTaskContent,
+    };
+
+    setColumns({
+      ...columns,
+      [activeColumnId]: {
+        ...columns[activeColumnId],
+        items: [...columns[activeColumnId].items, newTask],
+      },
+    });
+    setAddTaskModalOpen(false);
+  };
+
+  const openDeleteColumnModal = (columnId) => {
+    setConfirmModal({
+      isOpen: true,
+      type: "column",
+      columnId,
+    });
+  };
+
+  const openDeleteTaskModal = (columnId, taskId) => {
+    setConfirmModal({
+      isOpen: true,
+      type: "task",
+      columnId,
+      taskId,
+    });
+  };
+
+  const handleConfirmDelete = () => {
+    const { type, columnId, taskId } = confirmModal;
+
+    if (type === "column") {
+      const updated = { ...columns };
+      delete updated[columnId];
+      setColumns(updated);
+    } else if (type === "task") {
+      const updatedItems = columns[columnId].items.filter(
+        (item) => item.id !== taskId
+      );
+      setColumns({
+        ...columns,
+        [columnId]: {
+          ...columns[columnId],
+          items: updatedItems,
+        },
+      });
+    }
+
+    setConfirmModal({
+      isOpen: false,
+      type: null,
+      columnId: null,
+      taskId: null,
+    });
+  };
+
+  // ------------------------ End Modal Handlers ------------------------
+
   return (
     <div className="mx-2 md:mx-10 md:p-10 p-5 bg-white rounded-3xl">
       <div className="flex items-center justify-between mb-4">
         <Header category="App" title="Kanban" />
         <div className="flex justify-end mb-4">
           <button
-            onClick={handleAddColumn}
+            // onClick={handleAddColumn}
+            onClick={openAddColumnModal}
             className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
           >
             + Add Section
@@ -144,13 +232,15 @@ const Kanban = () => {
                 <h4 className="font-bold text-lg">{column.name}</h4>
                 <div className="flex items-center gap-2">
                   <button
-                    onClick={() => handleDeleteColumn(columnId)}
+                    // onClick={() => handleDeleteColumn(columnId)}
+                    onClick={() => openDeleteColumnModal(columnId)}
                     className="text-red-600 text-lg font-bold ml-2 hover:text-red-800 cursor-pointer"
                   >
-                    <FiTrash size={18}/>
+                    <FiTrash size={18} />
                   </button>
                   <button
-                    onClick={() => handleAddTask(columnId)}
+                    // onClick={() => handleAddTask(columnId)}
+                    onClick={() => openAddTaskModal(columnId)}
                     className="text-blue-500 text-lg font-bold ml-2 hover:text-blue-700 cursor-pointer"
                   >
                     <FiPlus size={18} />
@@ -200,7 +290,8 @@ const Kanban = () => {
                             <span>{item.content}</span>
                             <button
                               onClick={() =>
-                                handleDeleteTask(columnId, item.id)
+                                // handleDeleteTask(columnId, item.id)
+                                openDeleteTaskModal(columnId, item.id)
                               }
                               style={{
                                 marginLeft: 8,
@@ -226,6 +317,115 @@ const Kanban = () => {
           ))}
         </DragDropContext>
       </div>
+
+      {/* Modal per nuova colonna */}
+      <Modal
+        isOpen={isAddColumnModalOpen}
+        title="Add New Section"
+        onClose={() => setAddColumnModalOpen(false)}
+      >
+        <div className="space-y-4">
+          <input
+            type="text"
+            placeholder="Section name"
+            value={newColumnData.name}
+            onChange={(e) =>
+              setNewColumnData((prev) => ({ ...prev, name: e.target.value }))
+            }
+            className="w-full p-2 border rounded"
+          />
+          <div className="flex items-center space-x-2">
+            <label>Color:</label>
+            <input
+              type="color"
+              value={newColumnData.color}
+              onChange={(e) => {
+                setNewColumnData((prev) => ({
+                  ...prev,
+                  color: e.target.value,
+                }));
+              }}
+              className="w-10 h-10 p-0 border-2 border-gray-300 rounded cursor-pointer"
+            />
+          </div>
+          <div className="flex justify-end">
+            <button
+              onClick={handleConfirmAddColumn}
+              className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+            >
+              Add Section
+            </button>
+          </div>
+        </div>
+      </Modal>
+
+      {/* Modal per nuovo task */}
+      <Modal
+        isOpen={isAddTaskModalOpen}
+        title="Add New Task"
+        onClose={() => setAddTaskModalOpen(false)}
+      >
+        <div className="space-y-4">
+          <input
+            type="text"
+            placeholder="Task content"
+            value={newTaskContent}
+            onChange={(e) => setNewTaskContent(e.target.value)}
+            className="w-full p-2 border rounded"
+          />
+          <div className="flex justify-end">
+            <button
+              onClick={handleConfirmAddTask}
+              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+            >
+              Add Task
+            </button>
+          </div>
+        </div>
+      </Modal>
+
+      {/* Modal di conferma per cancellazione */}
+      <Modal
+        isOpen={confirmModal.isOpen}
+        title="Confirm Deletion"
+        onClose={() =>
+          setConfirmModal({
+            isOpen: false,
+            type: null,
+            columnId: null,
+            taskId: null,
+          })
+        }
+      >
+        <div className="space-y-4">
+          <p className="text-gray-800">
+            {confirmModal.type === "column"
+              ? "Are you sure you want to delete this section? All tasks will be lost."
+              : "Are you sure you want to delete this task?"}
+          </p>
+          <div className="flex justify-end space-x-2">
+            <button
+              onClick={() =>
+                setConfirmModal({
+                  isOpen: false,
+                  type: null,
+                  columnId: null,
+                  taskId: null,
+                })
+              }
+              className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={handleConfirmDelete}
+              className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };
