@@ -90,32 +90,6 @@ const Kanban = () => {
     });
   };
 
-  // const handleAddColumn = () => {
-  //   const name = prompt("New section name:");
-  //   const color = prompt("Background color (es. #A3D2CA):", "#F0F0F0");
-  //   if (!name || !color) return;
-
-  //   const newId = `col-${Date.now()}`;
-  //   setColumns({
-  //     ...columns,
-  //     [newId]: {
-  //       name,
-  //       color,
-  //       items: [],
-  //     },
-  //   });
-  // };
-
-  const handleDeleteColumn = (columnId) => {
-    const confirmed = window.confirm("Are you sure?");
-    if (!confirmed) return;
-
-    const updatedColumns = { ...columns };
-    delete updatedColumns[columnId];
-
-    setColumns(updatedColumns);
-  };
-
   // ------------------------ Modal Handlers ------------------------
 
   const openAddTaskModal = (columnId) => {
@@ -314,7 +288,7 @@ const Kanban = () => {
         </DragDropContext>
       </div>
 
-      {/* Modal per nuova colonna */}
+      {/* New Section Modal */}
       <Modal
         isOpen={isAddColumnModalOpen}
         title="Add New Section"
@@ -355,7 +329,7 @@ const Kanban = () => {
         </div>
       </Modal>
 
-      {/* Modal per nuovo task */}
+      {/* New Task Modal */}
       <Modal
         isOpen={isAddTaskModalOpen}
         title="Add New Task"
@@ -380,7 +354,7 @@ const Kanban = () => {
         </div>
       </Modal>
 
-      {/* Modal di conferma per cancellazione */}
+      {/* Confirm Deletion Modal */}
       <Modal
         isOpen={confirmModal.isOpen}
         title="Confirm Deletion"

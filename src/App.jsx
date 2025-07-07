@@ -87,7 +87,7 @@ const App = () => {
               className="pt-12"
               style={{
                 backgroundColor:
-                  currentMode === "Dark" ? Colors.mainDarkBg : Colors.lightGray,
+                  currentMode === "Dark" ? Colors.mainDarkBg : Colors.bgColor,
               }}
             >
               {themeSettings && <ThemeSettings />}
@@ -108,6 +108,7 @@ const App = () => {
                 <Route path="/calendar" element={<Calendar />} />
               </Routes>
             </div>
+            <Footer />
           </div>
         </div>
       </BrowserRouter>
