@@ -15,6 +15,10 @@ const StackedChart = ({ chartData, chartLabels, xAxisLabel, yAxisLabel }) => {
       ]}
       yAxis={[{ label: yAxisLabel }]}
       series={chartData}
+      sx={{
+        backgroundColor: "white",
+        borderRadius: "10px",
+      }}
     />
   );
 };

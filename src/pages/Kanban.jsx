@@ -215,9 +215,8 @@ const Kanban = () => {
         <Header category="App" title="Kanban" />
         <div className="flex justify-end mb-4">
           <button
-            // onClick={handleAddColumn}
             onClick={openAddColumnModal}
-            className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+            className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 cursor-pointer"
           >
             + Add Section
           </button>
@@ -232,14 +231,12 @@ const Kanban = () => {
                 <h4 className="font-bold text-lg">{column.name}</h4>
                 <div className="flex items-center gap-2">
                   <button
-                    // onClick={() => handleDeleteColumn(columnId)}
                     onClick={() => openDeleteColumnModal(columnId)}
                     className="text-red-600 text-lg font-bold ml-2 hover:text-red-800 cursor-pointer"
                   >
                     <FiTrash size={18} />
                   </button>
                   <button
-                    // onClick={() => handleAddTask(columnId)}
                     onClick={() => openAddTaskModal(columnId)}
                     className="text-blue-500 text-lg font-bold ml-2 hover:text-blue-700 cursor-pointer"
                   >
@@ -290,7 +287,6 @@ const Kanban = () => {
                             <span>{item.content}</span>
                             <button
                               onClick={() =>
-                                // handleDeleteTask(columnId, item.id)
                                 openDeleteTaskModal(columnId, item.id)
                               }
                               style={{

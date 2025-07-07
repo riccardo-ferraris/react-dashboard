@@ -8,14 +8,22 @@ import {
   ecomPieChartData,
 } from "../data/dummy";
 import { useStateContext } from "../contexts/ContextProvider";
+import Colors from "../colors";
 
 import chartJson from "../data/stackedChartData.json";
 
 const Ecommerce = () => {
+  const { currentColor, currentMode } = useStateContext();
   return (
     <div>
       <div className="flex flex-wrap lg:flex-nowrap justify-center">
-        <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg h-44 rounded-xl w-full lg:w-80 p-8 pt-9 m-3 bg-hero-pattern bg-no-repeat bg-cover bg-center">
+        <div
+          className="dark:text-gray-200 h-44 rounded-xl w-full lg:w-80 p-8 pt-9 m-3 bg-hero-pattern bg-no-repeat bg-cover bg-center"
+          style={{
+            backgroundColor:
+              currentMode === "Dark" ? Colors.secondaryDarkBg : "white",
+          }}
+        >
           <div className="flex justify-between items-center">
             <div>
               <p className="font-bold text-gray-400">Earnings</p>
@@ -25,7 +33,7 @@ const Ecommerce = () => {
           <div className="mt-6">
             <Button
               color="white"
-              bgColor="blue"
+              bgColor={currentColor}
               text="Download"
               borderRadius="10px"
               size="md"
@@ -37,7 +45,11 @@ const Ecommerce = () => {
           {earningData.map((item) => (
             <div
               key={item.title}
-              className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56 p-4 pt-9 rounded-2xl"
+              className="dark:text-gray-200 md:w-56 p-4 pt-9 rounded-2xl"
+              style={{
+                backgroundColor:
+                  currentMode === "Dark" ? Colors.secondaryDarkBg : "white",
+              }}
             >
               <button
                 type="button"
@@ -59,14 +71,19 @@ const Ecommerce = () => {
       </div>
 
       <div className="flex gap-10 flex-wrap justify-center">
-        <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg m-3 rounded-2xl w-full p-8 lg:w-2/3 lg:min-w-4xl">
+        <div
+          className="dark:text-gray-200 m-3 rounded-2xl w-full p-8 lg:w-2/3 lg:min-w-4xl"
+          style={{
+            backgroundColor:
+              currentMode === "Dark" ? Colors.secondaryDarkBg : "white",
+          }}
+        >
           <div className="flex justify-between">
             <p className="font-semibold text-xl">Revenue Updates</p>
-            
           </div>
 
-          <div className="flex flex-col xl:flex-row items-center gap-10">
-            <div className="mt-10 flex gap-2 flex-wrap w-1/2 justify-center xl:border-r-1 xl:border-b-0 border-b-1 border-gray-300 flex-col">
+          <div className="flex flex-col xl:flex-row items-center gap-10 justify-center">
+            <div className="mt-10 flex gap-2 flex-wrap w-1/3 justify-center xl:border-r-1 xl:border-b-0 border-b-1 border-gray-300 flex-col">
               <div className="m-4 pr-10">
                 <div>
                   <p>
@@ -89,20 +106,19 @@ const Ecommerce = () => {
 
                 <div className="mt-5">
                   <SparkLine
-                    currentColor="blue"
+                    currentColor={currentColor}
                     id="line-sparkline"
                     type="Line"
-                    height="80px"
-                    width="250px"
+                    height="80"
+                    width="300"
                     data={SparklineAreaData}
-                    color="blue"
                   />
                 </div>
 
                 <div className="mt-10">
                   <Button
                     color="white"
-                    bgColor="blue"
+                    bgColor={currentColor}
                     text="Download Report"
                     borderRadius="10px"
                     size="md"

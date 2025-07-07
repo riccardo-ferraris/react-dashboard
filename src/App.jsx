@@ -14,52 +14,83 @@ import {
 } from "./pages";
 
 import "./App.css";
+import Colors from "./colors";
 import { useStateContext } from "./contexts/ContextProvider";
 
 const App = () => {
-  const { activeMenu } = useStateContext();
+  const {
+    activeMenu,
+    themeSettings,
+    setThemeSettings,
+    currentColor,
+    currentMode,
+  } = useStateContext();
+
+  const bgColor = currentMode === "Dark" ? Colors.mainDarkBg : Colors.mainBg;
 
   return (
-    <div>
+    <div className={currentMode === "Dark" ? "dark" : ""}>
       <BrowserRouter>
-        <div className="flex relative dark:bg-main-dark-bg">
+        <div className={"flex relative"} style={{ backgroundColor: bgColor }}>
           <div className="fixed right-4 bottom-4" style={{ zIndex: "1000" }}>
             <Tooltip title="Settings">
               <Fab
                 sx={{
-                  backgroundColor: "blue",
+                  backgroundColor: currentColor,
                   color: "white",
                   fontSize: "20px",
                   "&:hover": {
-                    backgroundColor: "#0000B0",
+                    backgroundColor: `${currentColor}99`,
                   },
                 }}
-                onClick={() => {}}
+                onClick={() => setThemeSettings(true)}
               >
                 <FiSettings />
               </Fab>
             </Tooltip>
           </div>
           {activeMenu ? (
-            <div className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white">
+            <div
+              className="w-72 fixed sidebar"
+              style={{
+                backgroundColor:
+                  currentMode === "Dark" ? Colors.secondaryDarkBg : "white",
+              }}
+            >
               <Sidebar />
             </div>
           ) : (
-            <div className="w-0 dark:bg-secondary-dark-bg">
+            <div
+              className="w-0"
+              style={{
+                backgroundColor:
+                  currentMode === "Dark" ? Colors.secondaryDarkBg : "",
+              }}
+            >
               <Sidebar />
             </div>
           )}
           <div
-            className={`dark:bg-main-bg bg-main-bg min-h-screen w-full ${
+            className={`min-h-screen w-full ${
               activeMenu ? "md:ml-72" : "flex-2"
             }`}
+            style={{ backgroundColor: bgColor }}
           >
-            <div className="fixed md:static bg-main-bg dark:bg-main-dark-bg navbar w-full">
+            <div
+              className="fixed md:static navbar w-full"
+              style={{ backgroundColor: bgColor }}
+            >
               <Navbar />
             </div>
 
-            <div className="bg-gray-50 pt-12">
-              <ThemeSettings />
+            <div
+              className="pt-12"
+              style={{
+                backgroundColor:
+                  currentMode === "Dark" ? Colors.mainDarkBg : Colors.lightGray,
+              }}
+            >
+              {themeSettings && <ThemeSettings />}
 
               <Routes>
                 {/* Dashboard */}
