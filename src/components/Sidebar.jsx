@@ -1,5 +1,5 @@
 import { Link, NavLink } from "react-router-dom";
-import { SiShopware } from "react-icons/si";
+import { SiTrustedshops } from "react-icons/si";
 import { MdOutlineCancel } from "react-icons/md";
 import { Tooltip } from "@mui/material";
 import { links } from "../data/links";
@@ -36,7 +36,7 @@ const Sidebar = () => {
               onClick={handleCloseSidebar}
               className="items-center gap-3 ml-3 mt-4 flex text-xl font-extrabold tracking-tight dark:text-white text-slate-900"
             >
-              <SiShopware /> <span>Shoppy</span>
+              <SiTrustedshops /> <span>KevDev Dashboard</span>
             </Link>
             <Tooltip title="Menu">
               <button

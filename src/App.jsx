@@ -24,6 +24,7 @@ const App = () => {
     setThemeSettings,
     currentColor,
     currentMode,
+    setIsClicked,
   } = useStateContext();
 
   const bgColor = currentMode === "Dark" ? Colors.mainDarkBg : Colors.mainBg;
@@ -43,7 +44,15 @@ const App = () => {
                     backgroundColor: `${currentColor}99`,
                   },
                 }}
-                onClick={() => setThemeSettings(true)}
+                onClick={() => {
+                  setIsClicked({
+                    chat: false,
+                    cart: false,
+                    userProfile: false,
+                    notification: false,
+                  });
+                  setThemeSettings(true);
+                }}
               >
                 <FiSettings />
               </Fab>
