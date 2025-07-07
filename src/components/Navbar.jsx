@@ -30,10 +30,8 @@ const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
 
 const Navbar = () => {
   const {
-    activeMenu,
     setActiveMenu,
     isClicked,
-    setIsClicked,
     handleClick,
     screenSize,
     setScreenSize,
@@ -55,14 +53,6 @@ const Navbar = () => {
     } else {
       setActiveMenu(true);
     }
-
-    // Close all menus when screen size changes
-    // setIsClicked({
-    //   chat: false,
-    //   cart: false,
-    //   userProfile: false,
-    //   notification: false,
-    // });
   }, [screenSize]);
 
   return (

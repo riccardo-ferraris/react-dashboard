@@ -38,7 +38,6 @@
 
   /* Background image */
   /* --background-image-hero-pattern: url('https://i.ibb.co/MkvLDfb/Rectangle-4389.png'); */
-  --background-image-hero-pattern: url('./data/welcome-bg.svg');
 }
 
 /* Dark mode support (if you still want class-based toggling) */

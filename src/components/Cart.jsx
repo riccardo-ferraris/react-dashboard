@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { MdOutlineCancel } from "react-icons/md";
 import { useStateContext } from "../contexts/ContextProvider";
-import { Button } from "@mui/material"; // Puoi usare MUI o qualsiasi altro componente di UI
 import Colors from "../colors";
 
 const Cart = () => {
